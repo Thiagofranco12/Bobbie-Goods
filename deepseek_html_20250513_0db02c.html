@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coleção Bobbie Goods - Escolha o seu!</title>
+  <style>
+    /* BANNER PROMOCIONAL */
+    .promo-banner {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      animation: pulse 2s infinite;
+    }
+    .promo-banner .features {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    .promo-banner .feature {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .promo-banner .discount {
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2e8b57;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+    .box {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .box img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #eee;
+    }
+    .box h2 {
+      font-size: 18px;
+      margin: 10px 0;
+      color: #228b22;
+    }
+    .box p.price {
+      font-weight: bold;
+      color: #e67e22;
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .box .description {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+      flex-grow: 1;
+      white-space: pre-line;
+      text-align: left;
+    }
+    .box a {
+      margin-top: auto;
+      padding: 12px 25px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+      width: 80%;
+    }
+    .box a:hover {
+      background-color: #1da851;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90vh;
+      animation: zoom 0.3s;
+    }
+    @keyframes zoom {
+      from {transform: scale(0.5)}
+      to {transform: scale(1)}
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- BANNER PROMOCIONAL -->
+  <div class="promo-banner">
+    <div class="features">
+      <span class="feature">Capa Dura</span>
+      <span class="feature">Folha de Acetato transparente</span>
+      <span class="feature">Papel offset 180g</span>
+      <span class="feature">Com seu nome personalizado</span>
+    </div>
+    <div class="discount">🌟 Compre 2 e ganhe um super desconto! 🌟</div>
+  </div>
+
+  <h1>Coleção Bobbie Goods - Escolha o seu!</h1>
+  <div class="grid" id="catalogo"></div>
+
+  <div id="modal" class="modal">
+    <span class="close" onclick="fecharModal()">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+  <script>
+    const produtos = [
+      {
+        titulo: "Bichinhos do Bosque",
+        preco: "R$ 32,90",
+        descricao: "🌳✨ Descubra a magia da floresta com o livro de pintura Bichinhos do Bosque! ✨🌳<br><br>Dê vida aos personagens mais fofos da natureza! Com desenhos encantadores de esquilos, cervos, coelhinhos e muito mais, este livro é perfeito para crianças e adultos que amam soltar a criatividade. Além de divertido, pintar estimula a concentração, relaxa e desenvolve habilidades motoras.<br><br>🎨 Ideal para presentear ou para momentos especiais em família.<br>🐿️ Pegue seus lápis de cor e mergulhe nesse mundo encantado!",
+        imagem: "https://i.imgur.com/ikG56t1.jpeg"
+      },
+      {
+        titulo: "Bobbie Goods 01",
+        preco: "R$ 32,90",
+        descricao: "🌈✨ O primeiro volume da coleção Bobbie Goods traz ilustrações exclusivas e cheias de personalidade! ✨<br><br>Cada página é uma nova aventura, com personagens adoráveis e cenários criativos que vão despertar o artista que há em você. Perfeito para relaxar após um longo dia ou para se divertir em família.<br><br>🖍️ Solte a imaginação e transforme cada desenho em uma obra de arte colorida!",
+        imagem: "https://i.imgur.com/X6F3XKM.jpeg"
+      },
+      {
+        titulo: "Bobbie Goods 02",
+        preco: "R$ 32,90",
+        descricao: "🎨✏️ O segundo volume da coleção Bobbie Goods está repleto de novas surpresas! ✏️🎨<br><br>Descubra ilustrações únicas que misturam fantasia e realidade, criando um universo mágico para colorir. Ideal para quem busca momentos de relaxamento e diversão criativa.<br><br>✨ Deixe sua imaginação voar longe e crie combinações de cores incríveis!",
+        imagem: "https://i.imgur.com/LzE1vFa.jpeg"
+      },
+      {
+        titulo: "Bobbie Goods 03",
+        preco: "R$ 32,90",
+        descricao: "🧚‍♀️✨ O terceiro volume da Bobbie Goods traz cenas encantadas de um mundo de fantasia! ✨🧚‍♂️<br><br>Pinte fadas, criaturas mágicas e paisagens de sonho que vão transportar você para um universo especial. Um livro perfeito para presentear ou para seu momento de relaxamento diário.<br><br>🌙 Deixe-se levar pela magia das cores!",
+        imagem: "https://i.imgur.com/TIq8VaP.jpeg"
+      },
+      {
+        titulo: "Bobbie Goods 04",
+        preco: "R$ 32,90",
+        descricao: "🏰✨ O quarto volume da coleção Bobbie Goods apresenta cenários de contos de fadas! ✨🏰<br><br>Castelos encantados, jardins secretos e personagens clássicos esperam por suas cores favoritas. Ideal para quem ama histórias mágicas e quer dar vida a elas com seus lápis.<br><br>👑 Transforme cada página em um quadro digno de realeza!",
+        imagem: "https://i.imgur.com/XNW3Sbs.jpeg"
+      },
+      {
+        titulo: "Bobbie Goods 05",
+        preco: "R$ 32,90",
+        descricao: "🌍✈️ O quinto volume da Bobbie Goods leva você numa viagem pelo mundo! ✈️🌍<br><br>Conheça monumentos famosos, paisagens exóticas e culturas diferentes através de ilustrações detalhadas para colorir. Uma forma criativa de explorar o planeta sem sair de casa.<br><br>🗺️ Embarque nessa aventura colorida!",
+        imagem: "https://i.imgur.com/QkPMH0Y.jpeg"
+      },
+      {
+        titulo: "Bobbie Goods 06",
+        preco: "R$ 32,90",
+        descricao: "🦄🌈 O sexto volume da coleção é pura magia e diversão! 🌈🦄<br><br>Criaturas fantásticas, paisagens de sonho e elementos mágicos esperam por suas cores favoritas. Perfeito para quem quer escapar da rotina e entrar em um mundo de fantasia.<br><br>✨ Solte a criatividade e faça a magia acontecer com suas cores!",
+        imagem: "https://i.imgur.com/g9B5Zyg.jpeg"
+      },
+      {
+        titulo: "Bobbie Goods 07",
+        preco: "R$ 32,90",
+        descricao: "🎭✨ O sétimo volume da Bobbie Goods celebra a arte e a cultura! ✨🎭<br><br>Inspirado em diferentes formas de expressão artística, este livro traz ilustrações únicas que vão desafiar sua criatividade. Uma jornada pelo mundo das cores e formas.<br><br>🖌️ Liberte o artista que há em você!",
+        imagem: "https://i.imgur.com/2TuLr9d.jpeg"
+      },
+      {
+        titulo: "Cactos Fofos",
+        preco: "R$ 32,90",
+        descricao: "🌵💖 Adote estes cactos encantadores sem se preocupar com regas! 💖🌵<br><br>Este livro traz os cactos mais fofos e personalizados, cheios de carinha e estilo. Pinte seus espinhos de cores vibrantes e crie jardins imaginários incríveis.<br><br>✨ Perfeito para quem ama plantas mas não tem muito tempo para cuidar!",
+        imagem: "https://i.imgur.com/Ui3Rx99.jpeg"
+      },
+      {
+        titulo: "Heróis",
+        preco: "R$ 32,90",
+        descricao: "🦸‍♂️💥 Aventure-se com os heróis mais corajosos! 💥🦸‍♀️<br><br>Cenas de ação, salvamentos emocionantes e poderes especiais esperam por suas cores. Ideal para crianças e adultos que amam histórias de super-heróis.<br><br>⚡ Pegue seus lápis e ajude a salvar o dia com muito colorido!",
+        imagem: "https://i.imgur.com/NZLcpi3.jpeg"
+      },
+      {
+        titulo: "Capivaras Fofas",
+        preco: "R$ 32,90",
+        descricao: "🐾💕 Conheça as capivaras mais adoráveis do reino animal! 💕🐾<br><br>Este livro traz esses simpáticos roedores em situações divertidas: tomando sol, nadando ou fazendo novos amigos. Perfeito para quem ama animais e natureza.<br><br>🌿 Relaxe colorindo esses fofuchos da fauna brasileira!",
+        imagem: "https://i.imgur.com/0Ux2RxR.jpeg"
+      },
+      {
+        titulo: "Cristão Menina",
+        preco: "R$ 32,90",
+        descricao: "👧✝️ Momentos de fé e diversão para as pequenas! ✝️👧<br><br>Ilustrações inspiradoras com valores cristãos, histórias bíblicas adaptadas e mensagens positivas. Uma forma lúdica de aprender sobre o amor de Deus.<br><br>🌻 Presente perfeito para batizados, aniversários ou dia das crianças!",
+        imagem: "https://i.imgur.com/8tA7yQX.jpeg"
+      },
+      {
+        titulo: "Cristão Menino",
+        preco: "R$ 32,90",
+        descricao: "👦✝️ Aventuras bíblicas para os pequenos heróis da fé! ✝️👦<br><br>Colorir Davi e Golias, a Arca de Noé e outras histórias inspiradoras. Ilustrações cheias de ação que ensinam valores cristãos de forma divertida.<br><br>🛡️ Fortaleça a fé enquanto se diverte colorindo!",
+        imagem: "https://i.imgur.com/STOOVEr.jpeg"
+      },
+      {
+        titulo: "Dinos",
+        preco: "R$ 32,90",
+        descricao: "🦖🌋 Volte no tempo para a era dos dinossauros! 🌋🦕<br><br>Tiranossauros, triceratops e outras criaturas pré-históricas em cenas emocionantes. Perfeito para pequenos paleontólogos e amantes desses gigantes.<br><br>🔍 Explore o mundo jurássico com suas cores favoritas!",
+        imagem: "https://i.imgur.com/sXL5W7n.jpeg"
+      },
+      {
+        titulo: "Doramas",
+        preco: "R$ 32,90",
+        descricao: "💖📺 Cenas românticas e dramáticas dos doramas mais amados! 📺💖<br><br>Reviva momentos icônicos de seus dramas coreanos favoritos enquanto relaxa colorindo. Perfeito para os fãs de K-dramas.<br><br>🍿 Pegue seus lápis e prepare o lencinho - a emoção vai ser colorida!",
+        imagem: "https://i.imgur.com/SoSYHM5.jpeg"
+      },
+      {
+        titulo: "Flores",
+        preco: "R$ 32,90",
+        descricao: "🌸🌼 Um jardim eterno de beleza para colorir! 🌼🌸<br><br>Rosas, girassois, tulipas e muitas outras flores em arranjos encantadores. Terapia anti-stress perfeita para quem ama natureza e jardinagem.<br><br>🌺 Cultive seu próprio jardim de cores sem precisar regar!",
+        imagem: "https://i.imgur.com/cslTC2M.jpeg"
+      },
+      {
+        titulo: "Gatinhos",
+        preco: "R$ 32,90",
+        descricao: "🐱💝 Os felinos mais fofos em situações adoráveis! 💝🐱<br><br>Gatinhos brincando, dormindo, fazendo bagunça - todas as poses fofas que os amantes de gatos adoram. Relaxe colorindo esses pequenos tigres domésticos.<br><br>😻 Purr-fect para quem é apaixonado por bichanos!",
+        imagem: "https://i.imgur.com/cigdYz5.jpeg"
+      },
+      {
+        titulo: "Hello Kitty",
+        preco: "R$ 32,90",
+        descricao: "🐱🎀 A gatinha mais famosa do mundo em aventuras encantadoras! 🎀🐱<br><br>Cenas clássicas da Hello Kitty e seus amigos, cheias de fofura e estilo. Perfeito para fãs de todas as idades desta icônica personagem.<br><br>🍓 Deixe seu dia mais doce com muito cor e carinho!",
+        imagem: "https://i.imgur.com/qf6DqhA.jpeg"
+      },
+      {
+        titulo: "Homem Aranha",
+        preco: "R$ 32,90",
+        descricao: "🕷️🕸️ Ação e aventura com o herói aracnídeo! 🕸️🕷️<br><br>Cenas emocionantes do Homem-Aranha balançando entre arranha-céus, enfrentando vilões e salvando o dia. Ideal para fãs do universo Marvel.<br><br>⚡ Com grandes poderes vêm grandes oportunidades de colorir!",
+        imagem: "https://i.imgur.com/VRwlT8j.jpeg"
+      },
+      {
+        titulo: "Jardim",
+        preco: "R$ 32,90",
+        descricao: "🌿🌻 Paz e tranquilidade em cada página florida! 🌻🌿<br><br>Cenários serenos de jardins bem cuidados, com fontes, bancos e muitas flores. Uma terapia perfeita para quem busca relaxar através da arte.<br><br>🦋 Traga a natureza para dentro de casa com suas cores favoritas!",
+        imagem: "https://i.imgur.com/x4nZ5Ex.jpeg"
+      },
+      {
+        titulo: "Mandalas",
+        preco: "R$ 32,90",
+        descricao: "🌀🎨 Meditação ativa através das mandalas mais belas! 🎨🌀<br><br>Padrões geométricos perfeitos para relaxar a mente enquanto colore. Ideal para reduzir o stress e encontrar equilíbrio interior.<br><br>✨ Deixe-se levar pelo fluxo creativo e pela harmonia das cores!",
+        imagem: "https://i.imgur.com/yUoJKXI.jpeg"
+      },
+      {
+        titulo: "Naruto",
+        preco: "R$ 32,90",
+        descricao: "🍥🔥 Reviva as aventuras do ninja mais hiperativo! 🔥🍥<br><br>Personagens icônicos como Naruto, Sasuke e Sakura em cenas emocionantes da série. Perfeito para os fãs deste anime clássico.<br><br>🏃‍♂️ Dattebayo! Hora de colorir como um verdadeiro ninja!",
+        imagem: "https://i.imgur.com/7cAR1A7.jpeg"
+      },
+      {
+        titulo: "Natal Fofo",
+        preco: "R$ 32,90",
+        descricao: "🎄❄️ O espírito natalino em cada página para colorir! ❄️🎄<br><br>Cenas encantadoras de neve, renas, presentes e o bom velhinho. Ideal para entrar no clima das festas ou guardar como lembrança.<br><br>🎁 Faça deste Natal o mais colorido de todos!",
+        imagem: "https://i.imgur.com/TnefIRy.jpeg"
+      },
+      {
+        titulo: "Nostalgia",
+        preco: "R$ 32,90",
+        descricao: "📺🕰️ Uma viagem no tempo para relembrar os bons momentos! 🕰️📺<br><br>Ilustrações que remetem à infância, brinquedos antigos, desenhos clássicos e tudo que nos traz saudades.<br><br>🧸 Reviva memórias especiais enquanto colore!",
+        imagem: "https://i.imgur.com/MIWXmDU.jpeg"
+      },
+      {
+        titulo: "Pandinhas",
+        preco: "R$ 32,90",
+        descricao: "🐼🎋 Os ursos mais fofos do reino animal em situações adoráveis! 🎋🐼<br><br>Pandas brincando, comendo bambu ou tirando cochilos. Um livro que derrete corações e acalma a alma.<br><br>💞 Perfeito para quem não resiste a esses fofuchos em preto e branco (que você pode colorir como quiser)!",
+        imagem: "https://i.imgur.com/xMkUhnv.jpeg"
+      },
+      {
+        titulo: "Patrulha Canina",
+        preco: "R$ 32,90",
+        descricao: "🐶🚒 Aventuras com os filhotes mais corajosos de Bahia Aventura! 🚒🐶<br><br>Chase, Marshall, Skye e toda a turma em missões emocionantes para colorir. Ideal para os pequenos fãs desta animação.<br><br>🏗️ Patrulha Canina, estamos prontos para colorir, resgatador Ryder!",
+        imagem: "https://i.imgur.com/ldxlexC.jpeg"
+      },
+      {
+        titulo: "Pooh",
+        preco: "R$ 32,90",
+        descricao: "🍯🐻 O urso mais querido do Bosque dos Cem Acres e seus amigos! 🐻🍯<br><br>Reviva as aventuras simples e encantadoras de Pooh, Tigrão, Leitão e todos os habitantes da floresta.<br><br>🌳 Oh, céus, que dia lindo para colorir!",
+        imagem: "https://i.imgur.com/Jz8PGhU.jpeg"
+      },
+      {
+        titulo: "Princesas",
+        preco: "R$ 32,90",
+        descricao: "👑✨ Um reino encantado de princesas para colorir! ✨👑<br><br>Castelos majestosos, bailes elegantes e vestidos deslumbrantes. Perfeito para quem sonha com contos de fadas.<br><br>💃 E viveram felizes para sempre... com muitas cores!",
+        imagem: "https://i.imgur.com/p1LuBm1.jpeg"
+      },
+      {
+        titulo: "Raposinhas",
+        preco: "R$ 32,90",
+        descricao: "🦊🍂 As raposas mais astutas e adoráveis em cenários naturais! 🍂🦊<br><br>Ilustrações realistas ou estilizadas desses animais fascinantes, perfeitas para relaxar enquanto colore.<br><br>🌙 O que diz a raposinha? Vamos colorir juntos!",
+        imagem: "https://i.imgur.com/VS9y8t9.jpeg"
+      },
+      {
+        titulo: "Stitch Menino",
+        preco: "R$ 32,90",
+        descricao: "👽🔵 O experimento 626 em versão masculina para colorir! 🔵👽<br><br>Stitch aprontando todas com Lilo e causando confusão pelo Hawaii. Perfeito para os fãs deste alienígena adorável.<br><br>🌺 Ohana significa família - e família significa colorir juntos!",
+        imagem: "https://i.imgur.com/FddWKHK.jpeg"
+      },
+      {
+        titulo: "Stitch Menina",
+        preco: "R$ 32,90",
+        descricao: "👽💖 A versão feminina do nosso experimento favorito! 💖👽<br><br>Stitch com laços, flores e toda a fofura que só uma menina alienígena pode ter. Diversão garantida para os fãs.<br><br>🌸 Eu escolhi você para me ajudar a colorir!",
+        imagem: "https://i.imgur.com/1RtHVK8.jpeg"
+      },
+      {
+        titulo: "Unicórnios",
+        preco: "R$ 32,90",
+        descricao: "🦄🌈 Magia pura em forma de criaturas lendárias! 🌈🦄<br><br>Unicórnios em florestas encantadas, arco-íris e tudo que há de mais mágico. Perfeito para quem acredita no poder da fantasia.<br><br>✨ Onde há um unicórnio, há cores brilhantes esperando por você!",
+        imagem: "https://i.imgur.com/irRk3j3.jpeg"
+      },
+      {
+        titulo: "Yeshua",
+        preco: "R$ 32,90",
+        descricao: "✝️🙏 Momentos de fé e inspiração para colorir e refletir! 🙏✝️<br><br>Cenas bíblicas, versículos inspiradores e ilustrações que celebram o amor de Deus. Uma forma criativa de se conectar com a espiritualidade.<br><br>🕊️ Eu vim para que tenham vida, e a tenham em cores abundantes!",
+        imagem: "https://i.imgur.com/DfFklrz.jpeg"
+      }
+    ];
+
+    const container = document.getElementById("catalogo");
+
+    produtos.forEach(produto => {
+      const box = document.createElement("div");
+      box.className = "box";
+      box.innerHTML = `
+        <img src="${produto.imagem}" alt="${produto.titulo}" loading="lazy" onclick="abrirModal('${produto.imagem}')">
+        <h2>${produto.titulo}</h2>
+        <p class="price">${produto.preco}</p>
+        <div class="description">${produto.descricao}</div>
+        <a href="https://wa.me/5535987073455?text=Me+interessei+pelo+livro+${encodeURIComponent(produto.titulo)}" target="_blank">Compre Agora</a>
+      `;
+      container.appendChild(box);
+    });
+
+    function abrirModal(src) {
+      document.getElementById("modalImg").src = src;
+      document.getElementById("modal").style.display = "block";
+      document.body.style.overflow = "hidden";
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Escape") {
+        fecharModal();
+      }
+    });
+  </script>
+</body>
+</html>
